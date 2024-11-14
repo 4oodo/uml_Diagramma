@@ -1,0 +1,31 @@
+@startuml 1
+title Варианты использование системы (верхнеуровневые)
+
+left to right direction
+
+actor "Гость" as Guest
+usecase "Регистрация пользователя" as Registration 
+usecase "Редактирование профеля пользователя" as EditProfile
+Guest -> Registration
+Registration ..> EditProfile : include
+
+actor "пользователь" as User 
+actor "Эксперт" as Expert
+Expert -left-|> User
+
+User -> EditProfile
+
+usecase "Cоздать план участки" as CreatePlane
+User -> CreatePlane
+(указать базовый план) .up.> CreatePlane: extends
+
+User -> (Изменить план своего участка)
+User -> (Участвовать в консультации)
+Expert -> (Участвовать в консультации)
+Expert -> (Согласиться на консультацию)
+
+actor "Интернет магазин" as InternetStore
+User -> (получить рекомендации)
+InternetStore -up-> (Получить рекомендации)
+
+@enduml

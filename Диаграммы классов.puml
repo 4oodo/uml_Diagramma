@@ -1,0 +1,68 @@
+@startuml
+title Онтология домена план приусадебного участка
+
+interface "Площадь" as Area {
+    Границы : Многоугольник
+}
+
+class "Приусадебный участок" as Fram
+
+class "Постройки" as Buldings
+
+class "Амбар/сарай" as Shed
+class "Баня" as Bath
+class "Летняя кухня" as Kitchen
+class "Теплица" as GreenHouse
+class "Загон" as Corral
+
+Buldings <-u- Shed
+Buldings <-u- Bath
+Buldings <-u- Kitchen
+Buldings <-u- GreenHouse
+Buldings <-u- Corral
+
+class "Зона посадок" as Zone
+
+class "Грядки" as SeedBed
+class "Клумба" as Bed
+
+Zone <-- SeedBed
+Zone <-- Bed
+
+
+Zone .r.> Area
+Buldings .r.> Area
+Fram .r.> Area
+
+
+class "Посадки" as Plants{
+    Вид: Строка
+    Сорт: Строка
+    Однолетнее: флаг
+}
+class "Одиночные посадки" as SinglePlants
+class "Множественные посадки" as MultiplePlants
+SinglePlants -r-|> Plants
+MultiplePlants -l-|> Plants
+
+class "Деревья" as Tree
+class "Кустарники" as Shrubs
+class "Виноградник" as Grape
+class "Овощи" as Vegatables
+class "Травы" as Grass
+
+SinglePlants <-- Tree
+SinglePlants <-- Shrubs
+MultiplePlants <-- Grape
+MultiplePlants <-- Vegatables
+MultiplePlants <-- Grass
+
+Fram o-u- Buldings
+Farm o-- Zone
+
+GreenHouse "0..1" ---> "1..4" SeedBed : Может содержать
+
+Bed "*" -> "0..1" SinglePlants : Могут расти
+SeedBed "*" -> "0..3" MultiplePlants : могут расти
+
+@enduml
